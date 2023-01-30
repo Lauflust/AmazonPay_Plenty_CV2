@@ -211,5 +211,45 @@ class ServiceProvider extends ServiceProviderParent
         $this->getApplication()->register(RouteServiceProvider::class);
         $this->getApplication()->bind(TransactionRepositoryContract::class, TransactionRepository::class);
 
+        
+        /** @var ConsentRepositoryContract $consentRepository */
+        $consentRepository = pluginApp(ConsentRepositoryContract::class);
+
+        $consentRepository->registerConsentGroup(
+            'amzpay2',
+            'AmazonPayCheckout::AmazonPay.consentLabel',
+            [
+                'necessary' => false,
+                'description' => 'Die Amazon Pay Cookies sind notwendig damit du dich mit deinem Amazon-Konto anmelden und bezahlen kannst.',
+                'position' => 10
+            ]
+        );
+
+        $consentRepository->registerConsent(
+            'amazonPay2',
+            'AmazonPayCheckout::AmazonPay.consentLabel',
+            [
+                'description' => 'AmazonPayCheckout::AmazonPay.consentDescription',
+                'provider' => 'AmazonPayCheckout::AmazonPay.consentProvider',
+                'lifespan' => 'AmazonPayCheckout::AmazonPay.consentLifespan',
+                'policyUrl' => 'https://pay.amazon.de/help/201212490',
+                'group' => 'amzpay2',
+                'necessary' => false,
+                'isOptOut' => false,
+                'cookieNames' => [
+                    'amazon-pay-abtesting-apa-migration',
+                    'amazon-pay-abtesting-new-widgets',
+                    'amazon-pay-connectedAuth',
+                    'apay-session-set',
+                    'language',
+                    'amazon_Login_state_cache',
+                    'amazon_Login_accessToken',
+                    'apayLoginState',
+                    'amzLoginType',
+                    'amzDummy'
+                ]
+            ]
+        );
+
     }
 }
