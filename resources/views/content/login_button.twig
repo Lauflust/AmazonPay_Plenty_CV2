@@ -2,7 +2,7 @@
     <div class="amazon-login-button" data-color="{{ color }}"></div>
     <div class="amzNoCookie amz-btn-{{ color }}">
         <a @click="$store.commit('toggleConsent', '{{ config('AmazonPayCheckout.consentGroup') }}.amazonPay2'); $store.commit('storeConsents')" style="cursor: pointer;" v-tooltip data-toggle="tooltip" data-placement="bottom" title="{{ trans("AmazonPayCheckout::AmazonPay.checkoutPaymentMethodDescription") }}">
-            <span>{{ trans("AmazonPayCheckout::AmazonPay.signInWith") }} </span><img style="max-width: 120px;" src="{{ plugin_path('AmazonPayCheckout') }}/images/amazon_logo_{{ color }}.svg" alt="{{ trans("AmazonPayCheckout::AmazonPay.signInWith") }} Amazon" /><br/>
+            <span class="font-weight-bold h4">{{ trans("AmazonPayCheckout::AmazonPay.signInWith") }}</span><img style="max-width: 75px;" src="{{ plugin_path('AmazonPayCheckout') }}/images/amazon_logo_{{ color }}.svg" alt="{{ trans("AmazonPayCheckout::AmazonPay.signInWith") }} Amazon" /><br/>
             <span class="small">{{ trans("AmazonPayCheckout::AmazonPay.plsAcceptCookies") }}</span>
         </a>
     </div>
