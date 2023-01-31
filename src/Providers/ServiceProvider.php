@@ -221,7 +221,7 @@ class ServiceProvider extends ServiceProviderParent
             'AmazonPayCheckout::AmazonPay.consentLabel',
             [
                 'necessary' => false,
-                'description' => 'Die Amazon Pay Cookies sind notwendig damit du dich mit deinem Amazon-Konto anmelden und bezahlen kannst.',
+                'description' => 'AmazonPayCheckout::AmazonPay.consentGroupDescription',
                 'position' => 10
             ]
         );
