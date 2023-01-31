@@ -247,7 +247,8 @@ class ServiceProvider extends ServiceProviderParent
                     'amazon_Login_accessToken',
                     'apayLoginState',
                     'amzLoginType',
-                    'amzDummy'
+                    'amzDummy',
+                    'ledgerCurrency'
                 ]
             ]
         );
