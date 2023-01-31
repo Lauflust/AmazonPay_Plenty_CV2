@@ -1,7 +1,9 @@
 <div class="amazon-pay-button-wrapper">
     <div class="amazon-pay-button" data-color="{{ color }}"></div>
     <div class="amzNoCookie">
-        <div><img src="{{ plugin_path('AmazonPayCheckout') }}/images/amazon_pay_logo.png" alt="Amazon Pay" v-tooltip data-toggle="tooltip" data-placement="top" title="{{ trans("AmazonPayCheckout::AmazonPay.checkoutPaymentMethodDescription") }}" /></div>
-        <div class="small muted">{{ trans("AmazonPayCheckout::AmazonPay.plsAcceptCookies") }}</div>
+        <a @click="$store.commit('toggleConsent', '{{ config('AmazonPayCheckout.consentGroup') }}.amazonPay2'); $store.commit('storeConsents')" style="cursor: pointer;" v-tooltip data-toggle="tooltip" data-placement="bottom" title="{{ trans("AmazonPayCheckout::AmazonPay.checkoutPaymentMethodDescription") }}">
+            <img src="{{ plugin_path('AmazonPayCheckout') }}/images/amazon_pay_logo.png" alt="Amazon Pay" /><br/>
+            <span class="small muted ">{{ trans("AmazonPayCheckout::AmazonPay.plsAcceptCookies") }}</span>
+        </a>
     </div>
 </div>
