@@ -27,6 +27,7 @@ use Plenty\Plugin\ServiceProvider as ServiceProviderParent;
 use Plenty\Plugin\Templates\Twig;
 use Plenty\Plugin\Translation\Translator;
 use Plenty\Modules\Webshop\Consent\Contracts\ConsentRepositoryContract;
+use Plenty\Plugin\ConfigRepository;
 
 class ServiceProvider extends ServiceProviderParent
 {
