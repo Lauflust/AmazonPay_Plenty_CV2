@@ -238,16 +238,8 @@ class ServiceProvider extends ServiceProviderParent
                 'necessary' => false,
                 'isOptOut' => false,
                 'cookieNames' => [
-                    'amazon-pay-abtesting-apa-migration',
-                    'amazon-pay-abtesting-new-widgets',
-                    'amazon-pay-connectedAuth',
                     'apay-session-set',
                     'language',
-                    'amazon_Login_state_cache',
-                    'amazon_Login_accessToken',
-                    'apayLoginState',
-                    'amzLoginType',
-                    'amzDummy',
                     'ledgerCurrency'
                 ]
             ]
