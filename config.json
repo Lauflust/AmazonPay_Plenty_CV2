@@ -180,6 +180,49 @@
           }
         }
       }
+    },
+    "Config.CookiesTab": {
+      "label": "Config.CookiesTab",
+      "formFields": {
+        "consentGroup": {
+          "type": "selectBox",
+          "required": false,
+          "label": "Config.consentGroupLabel",
+          "options": {
+            "defaultValue": "payment",
+            "selectBoxValues": [
+              {
+                "value": "necessary",
+                "caption": "Config.consentGroupNecessary"
+              },
+              {
+                "value": "payment",
+                "caption": "Config.consentGroupPayment"
+              },
+              {
+                "value": "amzpay2",
+                "caption": "Config.consentGroupStandalone"
+              }
+            ]
+          }
+        },
+        "consentNecessary": {
+          "type": "checkBox",
+          "required": false,
+          "label": "Config.consentNecessaryLabel",
+          "options": {
+            "defaultValue": "false"
+          }
+        },
+        "consentOptOut": {
+          "type": "checkBox",
+          "required": false,
+          "label": "Config.consentOptOutLabel",
+          "options": {
+            "defaultValue": "false"
+          }
+        }
+      }
     }
   }
 }

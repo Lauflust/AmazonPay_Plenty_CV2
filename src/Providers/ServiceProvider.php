@@ -216,6 +216,9 @@ class ServiceProvider extends ServiceProviderParent
         /** @var ConsentRepositoryContract $consentRepository */
         $consentRepository = pluginApp(ConsentRepositoryContract::class);
 
+        /** @var ConfigRepository $config */
+        $config = pluginApp(ConfigRepository::class);
+
         $consentRepository->registerConsentGroup(
             'amzpay2',
             'AmazonPayCheckout::AmazonPay.consentLabel',
@@ -234,9 +237,9 @@ class ServiceProvider extends ServiceProviderParent
                 'provider' => 'AmazonPayCheckout::AmazonPay.consentProvider',
                 'lifespan' => 'AmazonPayCheckout::AmazonPay.consentLifespan',
                 'policyUrl' => 'https://pay.amazon.de/help/201212490',
-                'group' => 'amzpay2',
-                'necessary' => false,
-                'isOptOut' => false,
+                'group' => $config->get('AmazonPayCheckout.consentGroup', 'payment'),
+                'necessary' => $config->get('AmazonPayCheckout.consentNecessary') === 'true',
+                'isOptOut' => $config->get('AmazonPayCheckout.consentOptOut') === 'true',
                 'cookieNames' => [
                     'apay-session-set',
                     'language',
