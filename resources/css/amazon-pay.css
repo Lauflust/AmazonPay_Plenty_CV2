@@ -57,30 +57,36 @@
     border-width: 1px;
 }
 
-.amzNoCookie > a > img {
-    max-width: 140px;
-}
-
-.amzNoCookie .amz-btn-Gold {
+.amzNoCookie.amz-btn-Gold {
     border-color: #a88734 #9c7e31 #846a29;
     background: linear-gradient(to bottom, #f7dfa5, #f0c14b);
 }
-.amzNoCookie .amz-btn-Gold:hover {
+.amzNoCookie.amz-btn-Gold:hover {
     background: linear-gradient(to bottom, #f5d78e, #eeb933);
 }
+.amzNoCookie.amz-btn-Gold>a>img {
+    content: url(../images/amazon_pay_logo_black.svg);
+}
 
-.amzNoCookie .amz-btn-LightGray {
+.amzNoCookie.amz-btn-LightGray {
     border-color: #ADB1B8 #A2A6AC #8D9096;
     background: linear-gradient(to bottom, #F7F8FA, #E7E9EC);
 }
-.amzNoCookie .amz-btn-LightGray:hover {
+.amzNoCookie.amz-btn-LightGray:hover {
     background: linear-gradient(to bottom, #E6E9EF, #D9DCE1);
 }
+.amzNoCookie.amz-btn-LightGray>a>img {
+    content: url(../images/amazon_pay_logo.svg);
+}
 
-.amzNoCookie .amz-btn-DarkGray {
+.amzNoCookie.amz-btn-DarkGray {
     border-color: #3d444c #2f353b #2c3137;
     background: linear-gradient(to bottom, #71777D, #444C54);
+    color: #fffffe;
 }
-.amzNoCookie .amz-btn-DarkGray:hover {
+.amzNoCookie.amz-btn-DarkGray:hover {
     background: linear-gradient(to bottom, #64696F, #393F47);
+}
+.amzNoCookie.amz-btn-DarkGray>a>img {
+    content: url(../images/amazon_pay_logo_white.svg);
 }
