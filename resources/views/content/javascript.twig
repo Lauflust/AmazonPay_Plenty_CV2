@@ -4,7 +4,7 @@
     }
 </style>
 <link rel="stylesheet" href="{{ plugin_path('AmazonPayCheckout') }}/css/amazon-pay.css" />
-<script src="https://static-eu.payments-amazon.com/checkout.js"></script>
+<script src="https://static-eu.payments-amazon.com/checkout.js" type="text/plain" data-cookie-consent="{{ config('AmazonPayCheckout.consentGroup') }}.amazonPay2"></script>
 <script type="text/javascript" charset="utf-8">
     const AmazonPayConfiguration = {
         merchantId: '{{ config('AmazonPayCheckout.merchantId') }}',
