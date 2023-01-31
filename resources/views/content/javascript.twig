@@ -3,7 +3,7 @@
         {%  if config('AmazonPayCheckout.hideButtons') == "true" %}display: none !important;{%  endif %}
     }
 </style>
-<link rel="stylesheet" href="{{ plugin_path('AmazonPayCheckout') }}/css/amazon-pay.min.css" />
+<link rel="stylesheet" href="{{ plugin_path('AmazonPayCheckout') }}/css/amazon-pay.min.css?v={{ buildHash }}" />
 <script src="https://static-eu.payments-amazon.com/checkout.js" type="text/plain" data-cookie-consent="{{ config('AmazonPayCheckout.consentGroup') }}.amazonPay2"></script>
 <script type="text/javascript" charset="utf-8">
     const AmazonPayConfiguration = {
