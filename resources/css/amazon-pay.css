@@ -52,7 +52,6 @@
 }
 
 .amzNoCookie > a > img {
-    background: linear-gradient(to bottom, #f7dfa5, #f0c14b);
     display: inline-block;
     padding: 10px;
     border-radius: 3px;
@@ -61,6 +60,26 @@
     border-width: 1px;
 }
 
-.amzNoCookie > a > img:hover {
+.amzNoCookie > a > img.amz-btn-Gold {
+    border-color: #a88734 #9c7e31 #846a29;
+    background: linear-gradient(to bottom, #f7dfa5, #f0c14b);
+}
+.amzNoCookie > a > img.amz-btn-Gold:hover {
     background: linear-gradient(to bottom, #f5d78e, #eeb933);
+}
+
+.amzNoCookie > a > img.amz-btn-LightGray {
+    border-color: #ADB1B8 #A2A6AC #8D9096;
+    background: linear-gradient(to bottom, #F7F8FA, #E7E9EC);
+}
+.amzNoCookie > a > img.amz-btn-LightGray:hover {
+    background: linear-gradient(to bottom, #E6E9EF, #D9DCE1);
+}
+
+.amzNoCookie > a > img.amz-btn-DarkGray {
+    border-color: #3d444c #2f353b #2c3137;
+    background: linear-gradient(to bottom, #71777D, #444C54);
+}
+.amzNoCookie > a > img.amz-btn-DarkGray:hover {
+    background: linear-gradient(to bottom, #64696F, #393F47);
 }
