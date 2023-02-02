@@ -20,7 +20,7 @@
         buttonColor: '{{ config('AmazonPayCheckout.payButtonColor') }}'
     };
 </script>
-<script src="{{ plugin_path('AmazonPayCheckout') }}/js/amazon-pay.js" type="text/plain" data-cookie-consent="{{ config('AmazonPayCheckout.consentGroup') }}.amazonPay2"></script>
+<script src="{{ plugin_path('AmazonPayCheckout') }}/js/amazon-pay.min.js" type="text/plain" data-cookie-consent="{{ config('AmazonPayCheckout.consentGroup') }}.amazonPay2"></script>
 <script type="text/plain" data-cookie-consent="{{ config('AmazonPayCheckout.consentGroup') }}.amazonPay2">
     $('.amzNoCookie').addClass('d-none');
 </script>
