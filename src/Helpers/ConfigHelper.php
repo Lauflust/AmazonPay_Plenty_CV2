@@ -75,8 +75,8 @@ class ConfigHelper
         $webstoreConfigurationService = pluginApp(WebstoreConfigurationService::class);
         /** @var SessionStorageService $sessionStorage */
         $sessionStorage = pluginApp(SessionStorageService::class);
-        $defaultLanguage = $webstoreConfigurationService->getDefaultLanguage();
-        $lang = $sessionStorage->getLang();
+        $defaultLanguage = 'de'; //$webstoreConfigurationService->getDefaultLanguage();
+        $lang = 'de'; //$sessionStorage->getLang();
 
         $includeLanguage = $lang !== null && $lang !== $defaultLanguage;
         /** @var UrlQuery $urlQuery */
@@ -114,7 +114,7 @@ class ConfigHelper
     {
         /** @var LocalizationRepositoryContract $localizationRepository */
         $localizationRepository = pluginApp(LocalizationRepositoryContract::class);
-        $locale = $localizationRepository->getLocale();
+        $locale = 'de_DE'; //$localizationRepository->getLocale();
         if(in_array($locale, self::AVAILABLE_LOCALES)){
             return $locale;
         }
