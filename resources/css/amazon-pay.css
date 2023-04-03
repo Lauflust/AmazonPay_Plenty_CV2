@@ -46,3 +46,38 @@
 .amazon-pay-payment-info-container{
     padding:1em;
 }
+
+.amzNoCookie {
+    display: inline-block;
+    text-align: center;
+    padding: 10px;
+    border-radius: 3px;
+    box-shadow: 0 1px 0 rgb(255 255 255 / 40%) inset;
+    border-style: solid;
+    border-width: 1px;
+}
+
+.amzNoCookie.amz-btn-Gold {
+    border-color: #a88734 #9c7e31 #846a29;
+    background: linear-gradient(to bottom, #f7dfa5, #f0c14b);
+}
+.amzNoCookie.amz-btn-Gold:hover {
+    background: linear-gradient(to bottom, #f5d78e, #eeb933);
+}
+
+.amzNoCookie.amz-btn-LightGray {
+    border-color: #ADB1B8 #A2A6AC #8D9096;
+    background: linear-gradient(to bottom, #F7F8FA, #E7E9EC);
+}
+.amzNoCookie.amz-btn-LightGray:hover {
+    background: linear-gradient(to bottom, #E6E9EF, #D9DCE1);
+}
+
+.amzNoCookie.amz-btn-DarkGray {
+    border-color: #3d444c #2f353b #2c3137;
+    background: linear-gradient(to bottom, #71777D, #444C54);
+    color: #fffffe;
+}
+.amzNoCookie.amz-btn-DarkGray:hover {
+    background: linear-gradient(to bottom, #64696F, #393F47);
+}

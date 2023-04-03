@@ -26,6 +26,8 @@ use Plenty\Plugin\Events\Dispatcher;
 use Plenty\Plugin\ServiceProvider as ServiceProviderParent;
 use Plenty\Plugin\Templates\Twig;
 use Plenty\Plugin\Translation\Translator;
+use Plenty\Modules\Webshop\Consent\Contracts\ConsentRepositoryContract;
+use Plenty\Plugin\ConfigRepository;
 
 class ServiceProvider extends ServiceProviderParent
 {
@@ -209,6 +211,42 @@ class ServiceProvider extends ServiceProviderParent
     {
         $this->getApplication()->register(RouteServiceProvider::class);
         $this->getApplication()->bind(TransactionRepositoryContract::class, TransactionRepository::class);
+
+        
+        /** @var ConsentRepositoryContract $consentRepository */
+        $consentRepository = pluginApp(ConsentRepositoryContract::class);
+
+        /** @var ConfigRepository $config */
+        $config = pluginApp(ConfigRepository::class);
+
+        $consentRepository->registerConsentGroup(
+            'amzpay2',
+            'AmazonPayCheckout::AmazonPay.consentLabel',
+            [
+                'necessary' => false,
+                'description' => 'AmazonPayCheckout::AmazonPay.consentGroupDescription',
+                'position' => 10
+            ]
+        );
+
+        $consentRepository->registerConsent(
+            'amazonPay2',
+            'AmazonPayCheckout::AmazonPay.consentLabel',
+            [
+                'description' => 'AmazonPayCheckout::AmazonPay.consentDescription',
+                'provider' => 'AmazonPayCheckout::AmazonPay.consentProvider',
+                'lifespan' => 'AmazonPayCheckout::AmazonPay.consentLifespan',
+                'policyUrl' => 'https://pay.amazon.de/help/201212490',
+                'group' => $config->get('AmazonPayCheckout.consentGroup', 'payment'),
+                'necessary' => $config->get('AmazonPayCheckout.consentNecessary') === 'true',
+                'isOptOut' => $config->get('AmazonPayCheckout.consentOptOut') === 'true',
+                'cookieNames' => [
+                    'apay-session-set',
+                    'language',
+                    'ledgerCurrency'
+                ]
+            ]
+        );
 
     }
 }
