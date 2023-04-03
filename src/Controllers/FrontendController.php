@@ -11,6 +11,7 @@ use AmazonPayCheckout\Helpers\PaymentMethodHelper;
 use AmazonPayCheckout\Struct\StatusDetails;
 use AmazonPayCheckout\Traits\LoggingTrait;
 use Exception;
+use IO\Extensions\Constants\ShopUrls;
 use Plenty\Modules\Frontend\Contracts\Checkout;
 use Plenty\Modules\Frontend\PaymentMethod\Contracts\FrontendPaymentMethodRepositoryContract;
 use Plenty\Modules\Webshop\Contracts\SessionStorageRepositoryContract;
@@ -51,7 +52,7 @@ class FrontendController extends Controller
         $checkoutSessionId = $this->request->get('amazonCheckoutSessionId');
 
         if (empty($checkoutSessionId)) {
-            return $this->response->redirectTo('basket'); //TODO error msg+log
+            return $this->response->redirectTo($this->getShopBasketUrl()); //TODO error msg+log
         }
 
         /** @var SessionStorageRepositoryContract $sessionStorageRepository */
@@ -63,7 +64,7 @@ class FrontendController extends Controller
         $checkoutSession = $apiHelper->getCheckoutSession($checkoutSessionId);
 
         if ($checkoutSession->statusDetails->state !== StatusDetails::OPEN) {
-            return $this->response->redirectTo('basket'); //TODO error msg+log
+            return $this->response->redirectTo($this->getShopBasketUrl()); //TODO error msg+log
         }
 
         /** @var \AmazonPayCheckout\Helpers\AccountHelper $accountHelper */
@@ -78,7 +79,7 @@ class FrontendController extends Controller
         $checkoutHelper = pluginApp(CheckoutHelper::class);
         $checkoutHelper->setCurrentPaymentMethodId();
 
-        return $this->response->redirectTo('checkout');
+        return $this->response->redirectTo($this->getShopCheckoutUrl());
     }
 
     public function checkoutStart()
@@ -106,8 +107,8 @@ class FrontendController extends Controller
         }
 
         if (empty($checkoutSessionId)) {
-            $checkoutHelper->scheduleNotification('Bitte w&auml;hlen Sie eine Zahlungsart');
-            return $this->response->redirectTo('checkout');
+            $checkoutHelper->scheduleNotification($checkoutHelper->getTranslation('AmazonPay.pleaseSelectPaymentMethod'));
+            return $this->response->redirectTo($this->getShopCheckoutUrl());
         }
 
 
@@ -164,10 +165,8 @@ class FrontendController extends Controller
             /** @var \AmazonPayCheckout\Helpers\CheckoutHelper $checkoutHelper */
             $checkoutHelper = pluginApp(CheckoutHelper::class);
             $checkoutHelper->executePayment($order, $checkoutSessionId);
-            return $this->response->redirectTo('my-account');
-        } else {
-            return $this->response->redirectTo('my-account');
         }
+        return $this->response->redirectTo($this->getShopAccountUrl());
     }
 
 
@@ -185,18 +184,18 @@ class FrontendController extends Controller
         $checkoutSession = $apiHelper->getCheckoutSession($checkoutSessionId);
         $this->log(__CLASS__, __METHOD__, 'info', '', [$checkoutSession]);
         if ($checkoutSession->statusDetails->state === StatusDetails::OPEN) {
-            return $this->response->redirectTo('place-order');
+            return $this->response->redirectTo('place-order'); //TODO language?
         } else {
             /** @var CheckoutHelper $checkoutHelper */
             $checkoutHelper = pluginApp(CheckoutHelper::class);
 
-            $checkoutHelper->scheduleNotification('Bitte w&auml;hlen Sie eine andere Zahlungsart');
+            $checkoutHelper->scheduleNotification($checkoutHelper->getTranslation('AmazonPay.pleaseSelectAnotherPaymentMethod'));
             $sessionStorageRepository->setSessionValue('amazonCheckoutSessionId', null);
 
             $checkoutHelper->resetPaymentMethod();
 
             $this->log(__CLASS__, __METHOD__, 'failed', '☹ Checkout failed - buyer cancelled or was declined');
-            return $this->response->redirectTo('checkout');
+            return $this->response->redirectTo($this->getShopCheckoutUrl());
         }
     }
 
@@ -217,7 +216,7 @@ class FrontendController extends Controller
         /** @var \AmazonPayCheckout\Helpers\AccountHelper $accountHelper */
         $accountHelper = pluginApp(AccountHelper::class);
         $accountHelper->createAccountSession($buyer);
-        return $this->response->redirectTo('my-account');
+        return $this->response->redirectTo($this->getShopAccountUrl());
     }
 
     public function unsetPaymentMethod()
@@ -226,7 +225,7 @@ class FrontendController extends Controller
         /** @var CheckoutHelper $checkoutHelper */
         $checkoutHelper = pluginApp(CheckoutHelper::class);
         $checkoutHelper->resetPaymentMethod();
-        return $this->response->redirectTo('checkout');
+        return $this->response->redirectTo($this->getShopCheckoutUrl());
     }
 
     private function _cancelCheckoutStart(SessionStorageRepositoryContract $sessionStorageRepository, CheckoutHelper $checkoutHelper)
@@ -248,8 +247,8 @@ class FrontendController extends Controller
             }
         }
 
-        $checkoutHelper->scheduleNotification('Bitte w&auml;hlen Sie eine andere Zahlungsart');
-        return $this->response->redirectTo('checkout');
+        $checkoutHelper->scheduleNotification($checkoutHelper->getTranslation('AmazonPay.pleaseSelectAnotherPaymentMethod'));
+        return $this->response->redirectTo($this->getShopCheckoutUrl());
     }
 
     private function _continueWithAdditionalPaymentButton(ApiHelper $apiHelper, CheckoutHelper $checkoutHelper, $existingOrder = null)
@@ -261,14 +260,35 @@ class FrontendController extends Controller
             $createCheckoutSessionPayload = stripslashes(json_encode($checkoutHelper->getCheckoutSessionDataForDirectCheckout($existingOrder), JSON_UNESCAPED_UNICODE));
         } catch (Exception $e) {
             $this->log(__CLASS__, __METHOD__, 'failed', '', [$e->getMessage(), $e->getTraceAsString()]);
-            $checkoutHelper->scheduleNotification('Bitte w&auml;hlen Sie eine andere Zahlungsart');
-            return $this->response->redirectTo('checkout');
+            $checkoutHelper->scheduleNotification($checkoutHelper->getTranslation('AmazonPay.pleaseSelectAnotherPaymentMethod'));
+            return $this->response->redirectTo($this->getShopCheckoutUrl());
         }
         return $this->twig->render('AmazonPayCheckout::content.additional_payment_button', [
             'createCheckoutSessionPayload' => $createCheckoutSessionPayload,
             'language' => $configHelper->getLocale(),
             'createCheckoutSessionSignature' => $apiHelper->generateButtonSignature($createCheckoutSessionPayload),
         ]);
+    }
+
+    private function getShopCheckoutUrl()
+    {
+        /** @var ConfigHelper $configHelper */
+        $configHelper = pluginApp(ConfigHelper::class);
+        return $configHelper->getShopCheckoutUrlRelative();
+    }
+
+    private function getShopAccountUrl()
+    {
+        /** @var ShopUrls $shopUrls */
+        $shopUrls = pluginApp(ShopUrls::class);
+        return $shopUrls->myAccount;
+    }
+
+    private function getShopBasketUrl()
+    {
+        /** @var ShopUrls $shopUrls */
+        $shopUrls = pluginApp(ShopUrls::class);
+        return $shopUrls->basket;
     }
 
 }

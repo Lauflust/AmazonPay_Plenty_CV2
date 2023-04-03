@@ -99,9 +99,9 @@ class ServiceProvider extends ServiceProviderParent
                             <div class="checkout-amazon-pay-logo-container">
                                 <img src="https://amazon-pay-assets.s3.eu-central-1.amazonaws.com/logos/logo_default.svg"/>
                             </div>
-                            <div>'.$paymentDescriptor.'</div>
-                            <div><a href="#" id="amazon-pay-change-payment">' . $translator->trans('AmazonPayCheckout::AmazonPay.changeAmazonPayPaymentMean') . '</a></div>
-                            <div><a href="/payment/amazon-pay-unset-payment-method">' . $translator->trans('AmazonPayCheckout::AmazonPay.changePaymentMethod') . '</a></div>
+                            <div>' . $paymentDescriptor . '</div>
+                            <div><a href="#" id="amazon-pay-change-payment">' . $checkoutHelper->getTranslation('AmazonPay.changeAmazonPayPaymentMean') . '</a></div>
+                            <div><a href="/payment/amazon-pay-unset-payment-method">' . $checkoutHelper->getTranslation('AmazonPay.changePaymentMethod') . '</a></div>
                         </div>'
                     );
                 }
@@ -134,7 +134,6 @@ class ServiceProvider extends ServiceProviderParent
 
         $eventDispatcher->listen('Ceres.LayoutContainer.Script.AfterScriptsLoaded',
             function (LayoutContainer $container) {
-                $this->log(__CLASS__, __METHOD__, 'AfterScriptsLoaded');
                 /** @var ConfigHelper $configHelper */
                 $configHelper = pluginApp(ConfigHelper::class);
                 if (!$configHelper->isConfigComplete()) {
@@ -162,7 +161,7 @@ class ServiceProvider extends ServiceProviderParent
                                 <div>' . $shippingAddress->street . ' ' . $shippingAddress->houseNumber . '</div>
                                 <div>' . $shippingAddress->postalCode . ' ' . $shippingAddress->town . '</div>
                                 <div>' . $shippingAddress->country->name . '</div>
-                                <div class="amazon-pay-change-address-container"><a href="#" id="amazon-pay-change-address">' . $translator->trans('AmazonPayCheckout::AmazonPay.changeAddress') . '</a></div>
+                                <div class="amazon-pay-change-address-container"><a href="#" id="amazon-pay-change-address">' . $checkoutHelper->getTranslation('AmazonPay.changeAddress') . '</a></div>
                             </div>
                        </div>
                        ');

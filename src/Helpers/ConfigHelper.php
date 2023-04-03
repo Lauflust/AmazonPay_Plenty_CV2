@@ -2,6 +2,7 @@
 
 namespace AmazonPayCheckout\Helpers;
 
+use IO\Extensions\Constants\ShopUrls;
 use IO\Services\SessionStorageService;
 use IO\Services\UrlBuilder\UrlQuery;
 use IO\Services\WebstoreConfigurationService;
@@ -13,6 +14,7 @@ use Plenty\Plugin\ConfigRepository;
 class ConfigHelper
 {
     const AVAILABLE_LOCALES = ['en_GB', 'de_DE', 'fr_FR', 'it_IT', 'es_ES'];
+    const CUSTOM_INFORMATION_STRING = 'Created by Alkim Media, plentymarkets, v';
 
     /**
      * @var ConfigRepository
@@ -110,6 +112,17 @@ class ConfigHelper
         return $this->getAbsoluteUrl('payment/amazon-pay-checkout-start');
     }
 
+    public function getShopCheckoutUrl():string
+    {
+        return $this->getAbsoluteUrl($this->getShopCheckoutUrlRelative());
+    }
+    public function getShopCheckoutUrlRelative():string
+    {
+        /** @var ShopUrls $shopUrls */
+        $shopUrls = pluginApp(ShopUrls::class);
+        return $shopUrls->checkout;
+    }
+
     public function getLocale(): string
     {
         /** @var LocalizationRepositoryContract $localizationRepository */
@@ -142,7 +155,7 @@ class ConfigHelper
 
     public function getCustomInformationString(): string
     {
-        return 'Created by Alkim Media, plentymarkets, v'.$this->getPluginVersion();
+        return static::CUSTOM_INFORMATION_STRING.$this->getPluginVersion();
     }
 
     public function getPluginVersion(){
@@ -161,5 +174,4 @@ class ConfigHelper
         $storeName = $storeConfig->name;
         return (strlen($storeName) > 50 ? substr($storeName, 0, 46) . ' ...' : $storeName);
     }
-
 }
